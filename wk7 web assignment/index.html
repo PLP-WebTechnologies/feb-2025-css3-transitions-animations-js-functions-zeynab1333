@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Animation + localStorage</title>
+ <style>
+    body {
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 50px;
+}
+
+#save-btn{
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#animate-btn{
+   cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+
+#box {
+  width: 100px;
+  height: 100px;
+  background-color: teal;
+  margin: 30px auto;
+  transition: transform 1s ease-in-out;
+}
+
+.animate {
+  animation: bounce 1s ease forwards;
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-100px); }
+  100% { transform: translateY(0); }
+}
+
+ </style>
+</head>
+<body>
+  <h1>Welcome, <span id="username-display">Guest</span>!</h1>
+
+  <input type="text" id="username" placeholder="Enter your name">
+  <button id="save-btn">Save Name</button>
+
+  <div id="box"></div>
+
+  <button id="animate-btn">Animate Box</button>
+
+  <script>
+    // Load name from localStorage on page load
+window.onload = function () {
+  const savedName = localStorage.getItem('username');
+  if (savedName) {
+    document.getElementById('username-display').textContent = savedName;
+    document.getElementById('username').value = savedName;
+  }
+};
+
+// Save name to localStorage
+document.getElementById('save-btn').addEventListener('click', function () {
+  const name = document.getElementById('username').value;
+  localStorage.setItem('username', name);
+  document.getElementById('username-display').textContent = name;
+});
+
+// Trigger CSS animation on button click
+document.getElementById('animate-btn').addEventListener('click', function () {
+  const box = document.getElementById('box');
+  box.classList.remove('animate'); // reset animation if already played
+  void box.offsetWidth; // trick to restart animation
+  box.classList.add('animate');
+});
+
+  </script>
+</body>
+</html>
